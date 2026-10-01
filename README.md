@@ -48,7 +48,8 @@ src/
     GameOver.jsx        Win/draw result and rematch action
     Log.jsx             Move history
     Player.jsx          Player display and name editing
-  App.jsx               Game state, turn handling, and result calculation
+   App.jsx               UI composition and player-name state
+   game.js               Game reducer, move validation, and result selectors
   index.css             Global layout, component styles, and animations
   index.jsx             React application entry point
   winning-combinations.js
@@ -60,11 +61,11 @@ package.json            Dependencies and npm scripts
 
 ## Refactoring plan
 
-Suggested order, prioritizing correctness and accessibility before structural cleanup:
+Progress, prioritizing correctness and accessibility before structural cleanup:
 
-1. **Make game rules authoritative in one place.** Move turn handling and result calculations into a small game-state module or reducer. Reject moves into occupied squares and moves after a win/draw in the state transition itself, rather than relying only on disabled UI buttons. Derive the active player, board, winner, and draw from a consistent state model.
-2. **Improve accessible interaction.** Give each square an accessible row/column label, announce turn changes and game results with suitable live regions, and ensure the game-over state is keyboard accessible. Disable or otherwise make the board unavailable once the game has ended.
-3. **Harden player-name editing.** Use a form or explicit validation so an empty name cannot be saved; associate the input with a label and keep the editing state and displayed name behavior clear.
-4. **Make layout and motion resilient.** Use responsive board sizing so the board fits narrow viewports, and respect `prefers-reduced-motion` for pulsing and transition animations.
-5. **Fix asset resolution and establish quality checks.** The background stylesheet references `bg-pattern-dark.png` as a relative CSS URL even though the image is in `public/`; switch to a root-relative public URL or move the asset into the stylesheet's asset pipeline. Add an ESLint configuration and tests for win, draw, turn switching, invalid moves, and rematches.
-6. **Polish maintainability.** Standardize formatting and quote style, remove unused imports/parameters, and consider extracting game logic from `App.jsx` once it has tests.
+1. [x] **Make game rules authoritative in one place.** Turn handling and result calculations live in `src/game.js`; the reducer rejects occupied/out-of-range moves and moves after a win or draw.
+2. [x] **Improve accessible interaction.** Board cells have row/column labels, turn/results are announced, the game-over overlay is keyboard accessible, and the board/player controls are unavailable until rematch.
+3. [ ] **Harden player-name editing.** Use a form or explicit validation so an empty name cannot be saved; associate the input with a label and keep the editing state and displayed name behavior clear.
+4. [ ] **Make layout and motion resilient.** Use responsive board sizing so the board fits narrow viewports, and respect `prefers-reduced-motion` for pulsing and transition animations.
+5. [ ] **Fix asset resolution and establish quality checks.** The background stylesheet references `bg-pattern-dark.png` as a relative CSS URL even though the image is in `public/`; switch to a root-relative public URL or move the asset into the stylesheet's asset pipeline. Add an ESLint configuration and tests for win, draw, turn switching, invalid moves, and rematches.
+6. [ ] **Polish maintainability.** Standardize formatting and quote style, remove unused imports/parameters, and consider extracting game logic from `App.jsx` once it has tests.

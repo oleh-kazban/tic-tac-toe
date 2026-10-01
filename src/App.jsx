@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
@@ -18,6 +18,18 @@ function App() {
   const board = getBoard(gameTurns);
   const winner = getWinner(board);
   const draw = isDraw(board);
+  const isGameOver = Boolean(winner || draw);
+  const gameBoardRef = useRef(null);
+  const wasGameOver = useRef(false);
+
+  useEffect(() => {
+    if (wasGameOver.current && !isGameOver) {
+      gameBoardRef.current?.focus();
+    }
+
+    wasGameOver.current = isGameOver;
+  }, [isGameOver]);
+
   const handleTurn = (rowIndex, columnIndex) => dispatch({ type: 'turn', rowIndex, columnIndex });
   const handleRematch = () => {
     dispatch({ type: 'reset' });
@@ -32,12 +44,21 @@ function App() {
   return (
     <main>
       <div id="game-container">
-        <ol id="players" className="highlight-player">
-          <Player initialPlayerName={players.X} playerSymbol={'X'} isActive={currentPlayer === 'X'} onPlayerNameChange={handlePlayerNameChange} />
-          <Player initialPlayerName={players.O} playerSymbol={'O'} isActive={currentPlayer === 'O'} onPlayerNameChange={handlePlayerNameChange} />
-        </ol>
-        { (winner || draw) && <GameOver winner={players[winner]} handleRematch={handleRematch} />}
-        <GameBoard onTurn={handleTurn} board={board}/>
+        <div inert={isGameOver}>
+          <ol id="players" className="highlight-player">
+            <Player initialPlayerName={players.X} playerSymbol={'X'} isActive={currentPlayer === 'X'} onPlayerNameChange={handlePlayerNameChange} />
+            <Player initialPlayerName={players.O} playerSymbol={'O'} isActive={currentPlayer === 'O'} onPlayerNameChange={handlePlayerNameChange} />
+          </ol>
+          <GameBoard onTurn={handleTurn} board={board} isGameOver={isGameOver} boardRef={gameBoardRef} />
+        </div>
+        <p className="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+          {winner
+            ? `${players[winner]} (${winner}) wins!`
+            : draw
+              ? "It's a draw."
+              : `${players[currentPlayer]} (${currentPlayer})'s turn.`}
+        </p>
+        {isGameOver && <GameOver winner={winner ? players[winner] : null} handleRematch={handleRematch} />}
       </div>
       <Log gameTurns={gameTurns} />
     </main>
