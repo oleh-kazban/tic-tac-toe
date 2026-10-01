@@ -26,7 +26,7 @@ body {
     url('bg-pattern-dark.png');
   background-repeat: repeat;
   background-size: 100% 100%, 30% 30%, 100% 100%;
-  min-height: 110rem;
+  min-height: 100vh;
 }
 
 header {
@@ -64,7 +64,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(0.5rem, 3vw, 2rem);
 }
 
 #players li {
@@ -176,33 +176,80 @@ ol {
 
 #game-board {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin: 3rem 0;
+  width: 100%;
+  max-width: 28rem;
+  gap: clamp(0.5rem, 3vw, 2rem);
+  margin: clamp(1rem, 5vw, 3rem) auto;
   padding: 0;
   flex-direction: column;
 }
 
-#game-board ol {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+#game-board > li {
+  width: 100%;
+}
+
+#game-board > li > ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 3vw, 2rem);
   margin: 0;
   padding: 0;
 }
 
 #game-board button {
-  width: 8rem;
-  height: 8rem;
+  width: 100%;
+  aspect-ratio: 1;
   border: none;
   background: #aca788;
   color: #3f3b00;
-  font-size: 5rem;
+  font-size: clamp(2.5rem, 12vw, 5rem);
   cursor: pointer;
   font-family: 'Caprasimo', cursive;
-  padding: 1rem;
+  padding: 0.5rem;
+}
+
+@media (max-width: 40rem) {
+  #game-container {
+    margin: 1.5rem 1rem;
+    padding: 1.25rem;
+  }
+
+  #players {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  #players li {
+    width: 100%;
+  }
+
+  .player {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+    padding: 0.25rem;
+  }
+
+  .player-name {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .player-symbol {
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+  }
+
+  .player-edit-form input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
 }
 
 #game-over {
@@ -375,5 +422,16 @@ ol {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
