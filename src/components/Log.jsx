@@ -1,8 +1,6 @@
-import { useState } from "react";
-
 const Log = ({ gameTurns }) => {
     return <ol id="log">
-        {gameTurns.map((turn, index) => {
+        {gameTurns.map((turn) => {
             const { square, player } = turn;
             const { rowIndex, columnIndex } = square;
 

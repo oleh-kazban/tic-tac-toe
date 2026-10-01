@@ -25,10 +25,9 @@ A two-player Tic-Tac-Toe game built with React and Vite. Players can edit their 
 | --- | --- |
 | `npm run dev` | Start the Vite development server. |
 | `npm run build` | Build the production bundle into `dist/`. |
+| `npm test` | Run game logic tests with Node's built-in test runner. |
 | `npm run preview` | Preview the production build locally. |
 | `npm run lint` | Run ESLint over JavaScript and JSX files. |
-
-There is no test script or checked-in ESLint configuration at present. Add a project ESLint configuration before relying on `npm run lint` as a repeatable quality check.
 
 ## How to play
 
@@ -57,6 +56,8 @@ src/
 index.html              HTML shell served by Vite
 vite.config.js          Vite and React plugin configuration
 package.json            Dependencies and npm scripts
+.eslintrc.cjs           ESLint rules
+tests/game.test.js      Game logic tests
 ```
 
 ## Refactoring plan
@@ -67,5 +68,5 @@ Progress, prioritizing correctness and accessibility before structural cleanup:
 2. [x] **Improve accessible interaction.** Board cells have row/column labels, turn/results are announced, the game-over overlay is keyboard accessible, and the board/player controls are unavailable until rematch.
 3. [x] **Harden player-name editing.** Player names are edited in a labeled form, whitespace-only values are rejected, and validation feedback is announced accessibly.
 4. [x] **Make layout and motion resilient.** A three-column grid keeps each board row intact, player controls reflow on narrow screens, and animations/transitions are minimized for `prefers-reduced-motion` users.
-5. [ ] **Fix asset resolution and establish quality checks.** The background stylesheet references `bg-pattern-dark.png` as a relative CSS URL even though the image is in `public/`; switch to a root-relative public URL or move the asset into the stylesheet's asset pipeline. Add an ESLint configuration and tests for win, draw, turn switching, invalid moves, and rematches.
+5. [x] **Fix asset resolution and establish quality checks.** The background image uses a public-root URL, ESLint configuration is checked in, and Node tests cover turn switching, invalid moves, wins, draws, and resets.
 6. [ ] **Polish maintainability.** Standardize formatting and quote style, remove unused imports/parameters, and consider extracting game logic from `App.jsx` once it has tests.
