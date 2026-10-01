@@ -65,7 +65,7 @@ Progress, prioritizing correctness and accessibility before structural cleanup:
 
 1. [x] **Make game rules authoritative in one place.** Turn handling and result calculations live in `src/game.js`; the reducer rejects occupied/out-of-range moves and moves after a win or draw.
 2. [x] **Improve accessible interaction.** Board cells have row/column labels, turn/results are announced, the game-over overlay is keyboard accessible, and the board/player controls are unavailable until rematch.
-3. [ ] **Harden player-name editing.** Use a form or explicit validation so an empty name cannot be saved; associate the input with a label and keep the editing state and displayed name behavior clear.
+3. [x] **Harden player-name editing.** Player names are edited in a labeled form, whitespace-only values are rejected, and validation feedback is announced accessibly.
 4. [ ] **Make layout and motion resilient.** Use responsive board sizing so the board fits narrow viewports, and respect `prefers-reduced-motion` for pulsing and transition animations.
 5. [ ] **Fix asset resolution and establish quality checks.** The background stylesheet references `bg-pattern-dark.png` as a relative CSS URL even though the image is in `public/`; switch to a root-relative public URL or move the asset into the stylesheet's asset pipeline. Add an ESLint configuration and tests for win, draw, turn switching, invalid moves, and rematches.
 6. [ ] **Polish maintainability.** Standardize formatting and quote style, remove unused imports/parameters, and consider extracting game logic from `App.jsx` once it has tests.

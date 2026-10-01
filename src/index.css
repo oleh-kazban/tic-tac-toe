@@ -107,6 +107,21 @@ h1 {
   font-weight: bold;
 }
 
+.player-edit-form {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+}
+
+.player-name-error {
+  flex-basis: 100%;
+  color: #f8ca31;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
 .player-name {
   display: inline-block;
   width: 10rem;
